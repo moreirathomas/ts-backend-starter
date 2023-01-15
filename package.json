@@ -10,13 +10,19 @@
     "url": "https://github.com/moreirathomas/ts-backend-starter.git"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "tsc --build ./tsconfig.build.json",
+    "prebuild": "rm -rf dist",
+    "start": "node -r dotenv/config dist/index.js dotenv_config_path=.env.development",
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "test": "jest",
-    "test:dev": "jest --watch --coverage"
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest src",
+    "test:unit-dev": "jest --watchAll --coverage",
+    "test:e2e": "jest test/e2e"
+  },
+  "dependencies": {
+    "fastify": "4.11.0"
   },
   "devDependencies": {
     "@types/jest": "29.2.5",
